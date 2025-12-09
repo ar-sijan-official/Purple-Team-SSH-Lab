@@ -1,0 +1,122 @@
+<form version="1.1" theme="dark">
+  <label>SSH_Dashboard</label>
+  <fieldset submitButton="true">
+    <input type="time" token="time_range">
+      <label>Time Range</label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <single>
+        <title>Total SSH Events</title>
+        <search>
+          <query>index=main sourcetype="XmlWinEventLog:OpenSSH" 
+| stats count AS "Total SSH Events"</query>
+          <earliest>$time_range.earliest$</earliest>
+          <latest>$time_range.latest$</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x118832","0x0877a6","0xf8be34","0xf1813f","0x118832"]</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Successful Logins</title>
+        <search>
+          <query>index=main sourcetype="XmlWinEventLog:OpenSSH" "Accepted" 
+| stats count AS "Successful Logins"</query>
+          <earliest>$time_range.earliest$</earliest>
+          <latest>$time_range.latest$</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0x1182f3"]</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Failed Logins</title>
+        <search>
+          <query>index=main sourcetype="XmlWinEventLog:OpenSSH" "Failed password" 
+| stats count AS "Failed Login"</query>
+          <earliest>$time_range.earliest$</earliest>
+          <latest>$time_range.latest$</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xd94e17","0xdc4e41"]</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Invalid User Attempts</title>
+        <search>
+          <query>index=main sourcetype="XmlWinEventLog:OpenSSH" "Invalid user" 
+| stats count AS "Invalid User Attempts"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xd94e17","0xd94e17"]</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>User Names Tried</title>
+        <search>
+          <query>index=main sourcetype="XmlWinEventLog:OpenSSH" "Failed password"
+| rex field=_raw "for (?:invalid user )?(?&lt;user&gt;\S+) from"
+| top limit=20 user</query>
+          <earliest>$time_range.earliest$</earliest>
+          <latest>$time_range.latest$</latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+    <panel>
+      <table>
+        <title>Possible Brute Force b IP Address</title>
+        <search>
+          <query>index=main sourcetype="XmlWinEventLog:OpenSSH" "Failed password" 
+| rex field=_raw "from (?&lt;src_ip&gt;\d+\.\d+\.\d+\.\d+)" 
+| top limit=10 src_ip</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <map>
+        <title>BFA geo location</title>
+        <search>
+          <query>index=main sourcetype="XmlWinEventLog:OpenSSH" "Failed password" 
+| rex field=_raw "from (?&lt;src_ip&gt;\d+\.\d+\.\d+\.\d+)" 
+| iplocation src_ip 
+| eval Country=if(isnull(Country) OR Country="", "Bangladesh", Country) 
+| stats count by Country 
+| geom geo_countries featureIdField="Country"</query>
+          <earliest>$time_range.earliest$</earliest>
+          <latest>$time_range.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="mapping.type">choropleth</option>
+      </map>
+    </panel>
+  </row>
+</form>
