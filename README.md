@@ -24,6 +24,8 @@ The simulation includes:
 
 This lab showcases threat emulation, log engineering, SPL mastery, and SIEM analytics.
 
+
+<img width="1900" height="986" alt="Screenshot from 2025-12-10 01-18-15" src="https://github.com/user-attachments/assets/4f2abb6e-7ae7-4aec-8f77-1c943c49f606" />
 ---
 
 ## 🏗️ **Network Architecture**
@@ -108,14 +110,20 @@ index=main sourcetype="XmlWinEventLog:OpenSSH" "Failed password"
 
 ## 📸 **Screenshots (Suggested Sections)**
 
-1. Hydra attack execution in Kali Linux
-   End-to-end<img width="1900" height="986" alt="Screenshot from 2025-12-10 01-18-50" src="https://github.com/user-attachments/assets/10621d0f-733a-45e8-a53c-17954075d4fc" />
-2. Final Splunk dashboard displaying:
+1. Hydra attack execution in Kali Linux End-to-end
+
+   <img width="1900" height="986" alt="Screenshot from 2025-12-10 01-18-50" src="https://github.com/user-attachments/assets/10621d0f-733a-45e8-a53c-17954075d4fc" />
+
+   <img width="1900" height="986" alt="Screenshot from 2025-12-10 01-19-09" src="https://github.com/user-attachments/assets/831603b2-786d-4ed3-ac86-184f8137a920" />
+3. Final Splunk dashboard displaying:
 
    * Real-time failed login counter
    * Username targeting analysis
    * Geolocation heat map
+
      <img width="1920" height="1080" alt="Screenshot from 2025-12-10 01-13-28" src="https://github.com/user-attachments/assets/69cffce5-11a2-4852-b8db-3d7944d7619b" />
+
+
 
 
 ---
