@@ -6,6 +6,18 @@
 
 ---
 
+<h3 align="center">📺 Watch the Full Project Walkthrough</h3>
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=Y8wrNAIpDtA" target="_blank">
+    <img src="https://img.youtube.com/vi/Y8wrNAIpDtA/maxresdefault.jpg" 
+         alt="Purple Team SSH Lab Walkthrough" 
+         width="700">
+  </a>
+</p>
+
+---
+
 ## 📌 **Overview**
 
 This repository contains a hands-on **Purple Team** home-lab project that demonstrates how to detect and visualize **SSH Brute Force attacks** using Splunk.
